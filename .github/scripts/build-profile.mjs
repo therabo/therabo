@@ -34,7 +34,7 @@ function hero(theme, mobile) {
     body += text(x, 285, 'Computer Science Graduate —', { size: 18, fill: 'muted' });
     body += text(x, 313, 'University of Turin', { size: 20, weight: 700 });
   } else {
-    body += `<text x="${x}" y="307" fill="muted" font-family="Arial, Helvetica, sans-serif" font-size="17">Computer Science Graduate — <tspan font-weight="700" fill="text">University of Turin</tspan></text>`;
+    body += `<text x="${x}" y="281" fill="muted" font-family="Arial, Helvetica, sans-serif" font-size="17">Computer Science Graduate — <tspan font-weight="700" fill="text">University of Turin</tspan></text>`;
     body += instrument(693, 171);
   }
   return svg(w, h, 'Daniel Rabottini · @therabo', body, theme,

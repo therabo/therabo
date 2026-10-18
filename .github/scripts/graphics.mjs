@@ -49,7 +49,9 @@ export function activityCard(stats, theme, mobile = false) {
   const width = mobile ? 440 : 880;
   const { streaks } = stats;
   const wrappedDates = [streaks.current, streaks.longest].some((run) => runDates(run).length > 22);
-  const height = mobile ? (wrappedDates ? 510 : 488) : (wrappedDates ? 268 : 260);
+  const streakScale = mobile ? .65 : 1;
+  const unscaledHeight = mobile ? (wrappedDates ? 510 : 488) : (wrappedDates ? 268 : 260);
+  const height = mobile ? Math.ceil(300 + (unscaledHeight - 300) * streakScale) : unscaledHeight;
   const metrics = [
     ['stars', 'Stars received', stats.stars], ['commits', 'Commits', stats.commits],
     ['prs', 'Pull requests', stats.prs], ['issues', 'Issues opened', stats.issues],
@@ -57,7 +59,7 @@ export function activityCard(stats, theme, mobile = false) {
   ];
   let body = frame(width, height);
   body += text(28, 36, 'PUBLIC ACTIVITY', { size: mobile ? 16 : 13, fill: 'accent', mono: true, spacing: 1 });
-  body += text(mobile ? 28 : 454, mobile ? 286 : 36, 'CONTRIBUTION STREAKS', { size: mobile ? 16 : 13, fill: 'accent', mono: true, spacing: 1 });
+  body += text(mobile ? 28 : 454, mobile ? 286 : 36, 'CONTRIBUTION STREAKS', { size: mobile ? 16 * streakScale : 13, fill: 'accent', mono: true, spacing: streakScale });
   body += mobile ? '<path d="M28 254h384" stroke="line"/>' : '<path d="M418 28v214" stroke="line"/>';
   metrics.forEach(([name, label, value], i) => {
     const y = 76 + i * 38;
@@ -69,26 +71,27 @@ export function activityCard(stats, theme, mobile = false) {
 
   const cy = mobile ? 356 : 124;
   const centers = mobile ? [124, 316] : [540, 750];
-  // A fixed orbital marker echoes the hero instrument; it is not a progress meter.
-  body += `<g transform="translate(${centers[0]} ${cy})" fill="none">
+  for (const [i, [label, run]] of [['Current streak', streaks.current], ['Longest streak', streaks.longest]].entries()) {
+    const x = centers[i];
+    // A fixed orbital marker echoes the hero instrument; it is not a progress meter.
+    let runBody = i === 0 ? `<g transform="translate(${x} ${cy})" fill="none">
     <circle r="48" stroke="line"/>
     <path d="M-48 0a48 48 0 0 1 96 0" stroke="accent" stroke-width="2"/>
     <path d="M-56 0h8m96 0h8M0-56v8" stroke="accent"/>
     <circle cx="0" cy="48" r="3" fill="secondary"/>
-  </g>`;
-  for (const [i, [label, run]] of [['Current streak', streaks.current], ['Longest streak', streaks.longest]].entries()) {
-    const x = centers[i];
+  </g>` : '';
     const size = run.count > 999 ? 30 : run.count > 99 ? 38 : 44;
-    body += text(x, cy + 3, run.count, { size, weight: 700, fill: i === 0 ? 'accent' : 'text', anchor: 'middle' });
-    body += text(x, cy + 32, run.count === 1 ? 'day' : 'days', { size: mobile ? 17 : 15, fill: 'muted', anchor: 'middle' });
-    body += text(x, cy + 77, label, { size: mobile ? 21 : 19, weight: 700, anchor: 'middle' });
+    runBody += text(x, cy + 3, run.count, { size, weight: 700, fill: i === 0 ? 'accent' : 'text', anchor: 'middle' });
+    runBody += text(x, cy + 32, run.count === 1 ? 'day' : 'days', { size: mobile ? 17 : 15, fill: 'muted', anchor: 'middle' });
+    runBody += text(x, cy + 77, label, { size: mobile ? 21 : 19, weight: 700, anchor: 'middle' });
     const dates = runDates(run);
     if (dates.length > 22) {
-      body += text(x, cy + (mobile ? 103 : 96), calendarDate(run.start, true), { size: mobile ? 17 : 14, fill: 'muted', anchor: 'middle' });
-      body += text(x, cy + (mobile ? 127 : 116), `– ${calendarDate(run.end, true)}`, { size: mobile ? 17 : 14, fill: 'muted', anchor: 'middle' });
+      runBody += text(x, cy + (mobile ? 103 : 96), calendarDate(run.start, true), { size: mobile ? 17 : 14, fill: 'muted', anchor: 'middle' });
+      runBody += text(x, cy + (mobile ? 127 : 116), `– ${calendarDate(run.end, true)}`, { size: mobile ? 17 : 14, fill: 'muted', anchor: 'middle' });
     } else {
-      body += text(x, cy + 103, dates, { size: mobile ? 17 : 15, fill: 'muted', anchor: 'middle' });
+      runBody += text(x, cy + 103, dates, { size: mobile ? 17 : 15, fill: 'muted', anchor: 'middle' });
     }
+    body += mobile ? `<g transform="translate(${x} 300) scale(${streakScale}) translate(${-x} -300)">${runBody}</g>` : runBody;
   }
   return svg(width, height, 'GitHub activity', body, theme,
     metrics.map(([, label, value]) => `${label}: ${value}`).join('. ') + '. '
