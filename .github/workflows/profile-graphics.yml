@@ -1,0 +1,83 @@
+name: Update profile graphics
+
+on:
+  schedule:
+    - cron: '23 4 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/**'
+      - '.github/workflows/profile-graphics.yml'
+      - 'assets/**'
+      - 'README.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: profile-graphics-output
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.repository == 'therabo/therabo' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Check out profile source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+
+      - name: Test generators
+        run: node --test test/*.test.mjs
+
+      - name: Preserve last successful graphics
+        run: bash .github/scripts/publish-output.sh prepare
+
+      - name: Build public activity cards
+        id: activity
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OUT_DIR: activity-stage/stats
+        run: node .github/scripts/build-activity-card.mjs
+
+      - name: Build Contribution Invaders
+        id: contributions
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CONTRIBUTIONS_OUT_DIR: contributions-stage/contributions
+        run: node .github/scripts/build-contribution-invaders.mjs
+
+      - name: Accept successful generations
+        env:
+          ACTIVITY_OUTCOME: ${{ steps.activity.outcome }}
+          CONTRIBUTIONS_OUTCOME: ${{ steps.contributions.outcome }}
+        run: |
+          if [[ "$ACTIVITY_OUTCOME" == success ]]; then
+            cp activity-stage/stats/* dist/stats/
+          else
+            echo '::warning::Activity API unavailable; retaining last successful cards.'
+          fi
+          if [[ "$CONTRIBUTIONS_OUTCOME" == success ]]; then
+            cp contributions-stage/contributions/* dist/contributions/
+          else
+            echo '::warning::Contribution calendar unavailable; retaining last successful visualization.'
+          fi
+          {
+            echo '### Profile graphics'
+            echo "Activity generator: $ACTIVITY_OUTCOME"
+            echo "Contribution Invaders generator: $CONTRIBUTIONS_OUTCOME"
+            echo 'On failure, previously published graphics are preserved; the first run can use versioned public snapshots.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish complete graphics to output
+        run: bash .github/scripts/publish-output.sh publish

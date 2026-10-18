@@ -1,5 +1,47 @@
-👋 Hi, I’m @therabo  
-👀 Interested in Reverse Engineering, Cybersecurity, and AI Engineering  
-👩‍🎓 University of Turin Graduate — Computer Science  
-🌱 Expanding my knowledge of security research and machine learning  
-🛠️ Building automation tools and experimental software projects
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/profile-header-mobile.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/profile-header-mobile-light.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/profile-header.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="./assets/profile-header-light.svg" />
+  <img src="./assets/profile-header-light.svg" alt="Daniel Rabottini · @therabo — Computer Science graduate, University of Turin. Software engineering, applied AI, reverse engineering and cybersecurity." width="100%" />
+</picture>
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/section-activity-mobile.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/section-activity-mobile-light.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/section-activity.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="./assets/section-activity-light.svg" />
+  <img src="./assets/section-activity-light.svg" alt="Activity — public GitHub data" width="100%" />
+</picture>
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card-mobile.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card-mobile-light.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card-light.svg" />
+  <img src="./assets/stats/activity-card-light.svg" alt="Public GitHub activity: repositories, stars received, indexed commits, pull requests and issues. Updated automatically; detailed metric scope is documented in docs/MAINTENANCE.md." width="100%" />
+</picture>
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark) and (prefers-reduced-motion: reduce)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/contributions/contribution-invaders-mobile-static-dark.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: light) and (prefers-reduced-motion: reduce)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/contributions/contribution-invaders-mobile-static-light.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/contributions/contribution-invaders-mobile-dark.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/contributions/contribution-invaders-mobile-light.svg" />
+  <source media="(prefers-color-scheme: dark) and (prefers-reduced-motion: reduce)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/contributions/contribution-invaders-static-dark.svg" />
+  <source media="(prefers-color-scheme: light) and (prefers-reduced-motion: reduce)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/contributions/contribution-invaders-static-light.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/contributions/contribution-invaders-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/contributions/contribution-invaders-light.svg" />
+  <img src="./assets/contributions/contribution-invaders-static-light.svg" alt="Contribution Graph to Invaders: original contribution squares gradually reveal eyes and notches, followed by a slow two-layer starfield. Each active day keeps its contribution color. After the morph, each invader deploys into the right-hand area and follows its own bounded lateral advances, descents and upward recoveries. Reduced motion shows the original static graph." width="100%" />
+</picture>
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/section-contact-mobile.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/section-contact-mobile-light.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/section-contact.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="./assets/section-contact-light.svg" />
+  <img src="./assets/section-contact-light.svg" alt="Contact" width="100%" />
+</picture>
+
+**[LinkedIn ↗](https://www.linkedin.com/in/therabo/)** &nbsp; · &nbsp; **[GitHub ↗](https://github.com/therabo)**
+
+<p><sub>Thanks for visiting.</sub></p>
