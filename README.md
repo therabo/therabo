@@ -19,7 +19,7 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card-mobile-light.svg" />
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card-light.svg" />
-  <img src="./assets/stats/activity-card-light.svg" alt="GitHub activity: repositories, stars received, commits, pull requests and issues." width="100%" />
+  <img src="./assets/stats/activity-card-light.svg" alt="GitHub activity: stars received, indexed public commits, public pull requests, issues and owned repositories. Current and longest contribution streaks since account creation, with dates. Updated automatically; metric scope is documented in docs/MAINTENANCE.md." width="100%" />
 </picture>
 
 <picture>

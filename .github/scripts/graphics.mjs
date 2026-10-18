@@ -21,27 +21,77 @@ ${content}
 
 export const frame = (w, h) => `<rect x="0.5" y="0.5" width="${w - 1}" height="${h - 1}" rx="16" fill="bg" stroke="line"/>`;
 
+// Local 24-unit line icons; all colors resolve through the profile's theme tokens.
+const activityIcons = {
+  stars: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/>',
+  commits: '<path d="M2 12h5m10 0h5"/><circle cx="12" cy="12" r="5"/>',
+  prs: '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M6 7v10m12 0v-5a7 7 0 0 0-7-7m3-3-3 3 3 3"/>',
+  issues: '<circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 4v.1"/>',
+  repos: '<path d="M5 3h14v18H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 14h14M7 3v10m2 8v-4"/>',
+};
+
+function activityIcon(name, x, y) {
+  return `<g data-metric="${name}" transform="translate(${x} ${y})" fill="none" stroke="${name === 'stars' ? 'secondary' : 'accent'}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${activityIcons[name]}</g>`;
+}
+
+function calendarDate(date, withYear = false) {
+  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', ...(withYear ? { year: 'numeric' } : {}), timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
+}
+
+function runDates(run) {
+  if (!run.count) return 'No active run';
+  if (run.start === run.end) return calendarDate(run.start, true);
+  const crossYear = run.start.slice(0, 4) !== run.end.slice(0, 4);
+  return `${calendarDate(run.start, crossYear)} – ${calendarDate(run.end, true)}`;
+}
+
 export function activityCard(stats, theme, mobile = false) {
   const width = mobile ? 440 : 880;
-  const height = mobile ? 268 : 124;
+  const { streaks } = stats;
+  const wrappedDates = [streaks.current, streaks.longest].some((run) => runDates(run).length > 22);
+  const height = mobile ? (wrappedDates ? 510 : 488) : (wrappedDates ? 268 : 260);
   const metrics = [
-    ['Repositories', stats.repos], ['Stars received', stats.stars],
-    ['Commits', stats.commits], ['Pull requests', stats.prs], ['Issues opened', stats.issues],
+    ['stars', 'Stars received', stats.stars], ['commits', 'Commits', stats.commits],
+    ['prs', 'Pull requests', stats.prs], ['issues', 'Issues opened', stats.issues],
+    ['repos', 'Repositories', stats.repos],
   ];
   let body = frame(width, height);
-  metrics.forEach(([label, value], i) => {
-    const count = new Intl.NumberFormat('en-US').format(value);
-    if (mobile) {
-      const y = 46 + i * 44;
-      body += text(24, y, label, { size: 18, fill: 'muted' });
-      body += text(width - 24, y + 1, count, { size: 28, weight: 700, anchor: 'end' });
-    } else {
-      const x = 24 + i * 172;
-      body += text(x, 61, count, { size: 36, weight: 700 });
-      body += text(x, 89, label, { size: 16, fill: 'muted' });
-      if (i < 4) body += `<path d="M${x + 150} 27v70" stroke="line"/>`;
-    }
+  body += text(28, 36, 'PUBLIC ACTIVITY', { size: mobile ? 16 : 13, fill: 'accent', mono: true, spacing: 1 });
+  body += text(mobile ? 28 : 454, mobile ? 286 : 36, 'CONTRIBUTION STREAKS', { size: mobile ? 16 : 13, fill: 'accent', mono: true, spacing: 1 });
+  body += mobile ? '<path d="M28 254h384" stroke="line"/>' : '<path d="M418 28v214" stroke="line"/>';
+  metrics.forEach(([name, label, value], i) => {
+    const y = 76 + i * 38;
+    const count = new Intl.NumberFormat('en-US', value >= 1_000_000 ? { notation: 'compact', maximumFractionDigits: 1 } : {}).format(value);
+    body += activityIcon(name, 28, y - 18);
+    body += text(66, y, label, { size: mobile ? 21 : 19, fill: 'muted' });
+    body += text(mobile ? 412 : 386, y + 1, count, { size: 25, weight: 700, anchor: 'end' });
   });
+
+  const cy = mobile ? 356 : 124;
+  const centers = mobile ? [124, 316] : [540, 750];
+  // A fixed orbital marker echoes the hero instrument; it is not a progress meter.
+  body += `<g transform="translate(${centers[0]} ${cy})" fill="none">
+    <circle r="48" stroke="line"/>
+    <path d="M-48 0a48 48 0 0 1 96 0" stroke="accent" stroke-width="2"/>
+    <path d="M-56 0h8m96 0h8M0-56v8" stroke="accent"/>
+    <circle cx="0" cy="48" r="3" fill="secondary"/>
+  </g>`;
+  for (const [i, [label, run]] of [['Current streak', streaks.current], ['Longest streak', streaks.longest]].entries()) {
+    const x = centers[i];
+    const size = run.count > 999 ? 30 : run.count > 99 ? 38 : 44;
+    body += text(x, cy + 3, run.count, { size, weight: 700, fill: i === 0 ? 'accent' : 'text', anchor: 'middle' });
+    body += text(x, cy + 32, run.count === 1 ? 'day' : 'days', { size: mobile ? 17 : 15, fill: 'muted', anchor: 'middle' });
+    body += text(x, cy + 77, label, { size: mobile ? 21 : 19, weight: 700, anchor: 'middle' });
+    const dates = runDates(run);
+    if (dates.length > 22) {
+      body += text(x, cy + (mobile ? 103 : 96), calendarDate(run.start, true), { size: mobile ? 17 : 14, fill: 'muted', anchor: 'middle' });
+      body += text(x, cy + (mobile ? 127 : 116), `– ${calendarDate(run.end, true)}`, { size: mobile ? 17 : 14, fill: 'muted', anchor: 'middle' });
+    } else {
+      body += text(x, cy + 103, dates, { size: mobile ? 17 : 15, fill: 'muted', anchor: 'middle' });
+    }
+  }
   return svg(width, height, 'GitHub activity', body, theme,
-    metrics.map(([label, value]) => `${label}: ${value}`).join('. ') + '.');
+    metrics.map(([, label, value]) => `${label}: ${value}`).join('. ') + '. '
+    + `Current streak: ${streaks.current.count} days (${runDates(streaks.current)}). Longest streak: ${streaks.longest.count} days (${runDates(streaks.longest)}). `
+    + `Streaks use the publicly visible contribution calendar from ${streaks.from} through ${streaks.through}, UTC. A zero today preserves yesterday's run.`);
 }

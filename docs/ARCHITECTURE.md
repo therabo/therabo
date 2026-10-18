@@ -8,6 +8,7 @@ running JavaScript. There are no runtime package dependencies.
 |---|---|
 | Public calendar acquisition/validation | `contribution-calendar.mjs` |
 | Public activity acquisition and cards | `build-activity-card.mjs`, `graphics.mjs` |
+| Account-history streak collection/calculation | `activity-streaks.mjs` (reuses calendar validation) |
 | Dataset mode selection and build configuration | `invaders.mjs` |
 | Calendar geometry/colors/canonical sequence | `contribution-scene.mjs` |
 | Shared canvas, bounds and directional envelopes | `motion-geometry.mjs` |
@@ -26,6 +27,15 @@ running JavaScript. There are no runtime package dependencies.
 Mode selection happens once at the build/render boundary. Ending an Invader game
 cannot select Meteor Mode. Shared artwork accepts explicit timing/flight inputs;
 Meteor planning imports no Invader gameplay or shooting module.
+
+Activity obtains the existing public REST/search metrics and the account creation
+date, then collects anonymous calendar years through today in UTC. The streak
+module reuses `fromPublicHTML`/`normalizeCalendar` without changing the game
+collector. Complete coverage is required before calculation or output writes.
+Its schema-v2 snapshot adds current/longest counts, ranges, history scope and
+as-of date to the existing metrics. All four Activity SVGs share that snapshot;
+desktop divides metrics/streaks left/right, mobile stacks them in the same frame.
+The workflow and output file contract are unchanged. See ADR-0006.
 
 The canonical clock is preserved to keep sampled ship/trail paths, intercepts and
 motion phases stable. `invader-timing.mjs` composes the 2× morph clock, 40% retained

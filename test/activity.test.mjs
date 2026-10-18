@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { build, collectStats, request } from '../.github/scripts/build-activity-card.mjs';
 import { activityCard } from '../.github/scripts/graphics.mjs';
+import { deriveStreaks } from '../.github/scripts/activity-streaks.mjs';
 
 const repo = (stars = 1) => ({ private: false, owner: { login: 'therabo' }, stargazers_count: stars });
 test('paginates repositories and explicitly restricts every search to public data', async () => {
@@ -41,13 +42,51 @@ test('retries temporary errors but does not convert unavailable data into zero',
 });
 
 test('light/dark and narrow cards are deterministic and keep real zero values', () => {
-  const stats = { repos: 0, stars: 0, commits: 0, prs: 0, issues: 0 };
+  const streaks = deriveStreaks([{ date: '2026-10-18', count: 0 }], '2026-10-18', '2026-10-18');
+  const stats = { repos: 0, stars: 0, commits: 0, prs: 0, issues: 0, streaks };
   for (const theme of ['dark', 'light']) for (const mobile of [false, true]) {
     const card = activityCard(stats, theme, mobile);
     assert.equal(card, activityCard(stats, theme, mobile));
     assert.match(card, /Repositories: 0/);
+    assert.match(card, /Current streak: 0 days \(No active run\)/);
+    assert.match(card, /Longest streak: 0 days/);
     assert.doesNotMatch(card, /NaN|undefined|foreignObject|<script|@font-face/);
   }
+});
+
+test('complete Activity build persists metric scope, streak dates and four variants', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'profile-card-test-'));
+  try {
+    const api = async (path) => path.includes('/repos?') ? [repo(18)] : path === '/users/therabo'
+      ? { login: 'therabo', created_at: '2026-10-18T12:00:00Z' } : { total_count: 7, incomplete_results: false };
+    await build(dir, api, async (createdAt) => {
+      assert.equal(createdAt, '2026-10-18T12:00:00Z');
+      return deriveStreaks([{ date: '2026-10-18', count: 1 }], '2026-10-18', '2026-10-18');
+    });
+    assert.equal((await readdir(dir)).length, 5);
+    const snapshot = JSON.parse(await readFile(join(dir, 'activity.json'), 'utf8'));
+    assert.equal(snapshot.schemaVersion, 2);
+    assert.equal(snapshot.data.streaks.current.count, 1);
+    assert.equal(snapshot.data.streaks.through, '2026-10-18');
+    for (const file of (await readdir(dir)).filter((name) => name.endsWith('.svg'))) {
+      const svg = await readFile(join(dir, file), 'utf8');
+      assert.match(svg, /Current streak: 1 days/);
+      assert.match(svg, /Longest streak: 1 days/);
+    }
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('streak collection failure preserves the entire previous Activity set', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'profile-card-test-'));
+  const files = ['activity.json', 'activity-card.svg', 'activity-card-light.svg', 'activity-card-mobile.svg', 'activity-card-mobile-light.svg'];
+  try {
+    for (const file of files) await writeFile(join(dir, file), `previous ${file}`);
+    const api = async (path) => path.includes('/repos?') ? [] : path === '/users/therabo'
+      ? { login: 'therabo', created_at: '2023-12-29T10:27:18Z' } : { total_count: 0, incomplete_results: false };
+    await assert.rejects(build(dir, api, async () => { throw new Error('Incomplete streak history'); }), /Incomplete/);
+    for (const file of files) assert.equal(await readFile(join(dir, file), 'utf8'), `previous ${file}`);
+    assert.deepEqual((await readdir(dir)).sort(), files.sort());
+  } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
 test('API failure leaves an existing card byte-for-byte intact', async () => {

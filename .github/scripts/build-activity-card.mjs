@@ -2,6 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { activityCard } from './graphics.mjs';
+import { collectStreaks } from './activity-streaks.mjs';
 
 const USER = 'therabo';
 const API = 'https://api.github.com';
@@ -68,18 +69,21 @@ export async function collectStats(api = request) {
   };
 }
 
-export async function build(out = process.env.OUT_DIR || 'dist/stats', api = request) {
-  const stats = await collectStats(api); // Finish every API call before touching output files.
+export async function build(out = process.env.OUT_DIR || 'dist/stats', api = request, loadStreaks = collectStreaks) {
+  const metrics = await collectStats(api);
+  const profile = await api(`/users/${USER}`);
+  if (profile?.login?.toLowerCase() !== USER) throw new Error('Unexpected streak account identity.');
+  const stats = { ...metrics, streaks: await loadStreaks(profile.created_at) };
+  // Finish all acquisition, validation and rendering before touching output files.
+  const files = [];
+  for (const theme of ['dark', 'light']) for (const mobile of [false, true]) {
+    const name = `activity-card${mobile ? '-mobile' : ''}${theme === 'light' ? '-light' : ''}.svg`;
+    files.push([name, activityCard(stats, theme, mobile)]);
+  }
+  files.push(['activity.json', JSON.stringify({ schemaVersion: 2, user: USER, data: stats }, null, 2) + '\n']);
   const dir = resolve(out);
   await mkdir(dir, { recursive: true });
-  for (const theme of ['dark', 'light']) {
-    for (const mobile of [false, true]) {
-      const name = `activity-card${mobile ? '-mobile' : ''}${theme === 'light' ? '-light' : ''}.svg`;
-      await writeFile(resolve(dir, name), activityCard(stats, theme, mobile));
-    }
-  }
-  // No clock in the generated files: identical API results produce identical bytes.
-  await writeFile(resolve(dir, 'activity.json'), JSON.stringify({ schemaVersion: 1, user: USER, data: stats }, null, 2) + '\n');
+  for (const [name, content] of files) await writeFile(resolve(dir, name), content);
   console.log(`Built activity graphics from public GitHub data for @${USER}.`);
 }
 

@@ -93,6 +93,33 @@ contribution calendar is a separate GitHub metric and is not interchangeable wit
 search totals. Incomplete or malformed API results are rejected. Versioned data
 may be stale during an outage and is not described as live.
 
+Activity streaks use the publicly visible contribution calendar, collected
+anonymously for every calendar year since the public account creation date.
+Anonymized private contribution counts can be included only when the owner has
+chosen to show them publicly; no private repository details are retrieved.
+The streak collector reuses the calendar parser but neither changes nor reads
+the game's generated snapshots, placement, timing or workflow outcome.
+
+Each positive day adds one to a run, irrespective of its contribution count.
+Runs can cross year boundaries and leap days. Current streak ends today or
+yesterday: a zero today does not break yesterday's run until a full day is missed.
+Longest streak covers account creation through the displayed as-of UTC date;
+ties use the most recent range. `stats/activity.json` schema version 2 keeps the
+five original metric fields and adds `streaks` with `from`, `through`, `source`,
+`current` and `longest` (each run has `count`, `start`, `end`). A zero run has null
+dates. SVG rendering uses these persisted dates, never the machine's local zone.
+
+The build makes one extra REST request for account creation and one anonymous
+calendar request per account year, with bounded retries and complete daily
+coverage checks. A missing year or failed calendar leaves all prior Activity
+files untouched; the existing hosted publisher preserves the last-good set.
+History scope and the as-of date remain in the snapshot and SVG description;
+the card has no visible footer or footer divider. Rebuild versioned Activity
+fallbacks deliberately with `OUT_DIR=assets/stats node .github/scripts/build-activity-card.mjs`.
+Do not run `build-profile.mjs` merely to refresh Activity: the current published
+README has separately maintained header/contact details; keep the Activity alt
+text synchronized in both sources without replacing unrelated profile sections.
+
 The README's identity, degree and LinkedIn link are intentional public profile
 content. Do not add private repository payloads, environment files, machine paths,
 local review artifacts or authentication/session data.
