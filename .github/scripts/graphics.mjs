@@ -49,7 +49,7 @@ export function activityCard(stats, theme, mobile = false) {
   const width = mobile ? 440 : 880;
   const { streaks } = stats;
   const wrappedDates = [streaks.current, streaks.longest].some((run) => runDates(run).length > 22);
-  const streakScale = mobile ? .65 : 1;
+  const streakScale = mobile ? .75 : 1;
   const unscaledHeight = mobile ? (wrappedDates ? 510 : 488) : (wrappedDates ? 268 : 260);
   const height = mobile ? Math.ceil(300 + (unscaledHeight - 300) * streakScale) : unscaledHeight;
   const metrics = [
