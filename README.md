@@ -7,11 +7,11 @@
 </picture>
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/section-activity-mobile.svg" />
-  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/section-activity-mobile-light.svg" />
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/section-activity.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="./assets/section-activity-light.svg" />
-  <img src="./assets/section-activity-light.svg" alt="Activity" width="100%" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-activity-mobile.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-activity-mobile-light.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-activity.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-activity-light.svg" />
+  <img src="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-activity-light.svg" alt="Activity" width="100%" />
 </picture>
 
 <picture>
@@ -35,11 +35,11 @@
 </picture>
 
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="./assets/section-contact-mobile.svg" />
-  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/section-contact-mobile-light.svg" />
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/section-contact.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="./assets/section-contact-light.svg" />
-  <img src="./assets/section-contact-light.svg" alt="Contact" width="100%" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-contact-mobile.svg" />
+  <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-contact-mobile-light.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-contact.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-contact-light.svg" />
+  <img src="https://raw.githubusercontent.com/therabo/therabo/c6a2e3908df062833a15bc87f60ce72124c98d70/assets/section-contact-light.svg" alt="Contact" width="100%" />
 </picture>
 
 <p><a href="https://www.linkedin.com/in/therabo/" title="LinkedIn profile"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/contact-linkedin.svg" /><source media="(prefers-color-scheme: light)" srcset="./assets/contact-linkedin-light.svg" /><img src="./assets/contact-linkedin-light.svg" alt="LinkedIn" width="126" height="44" /></picture></a>&nbsp;&nbsp;&nbsp;
