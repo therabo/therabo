@@ -13,6 +13,12 @@ import { planSimpleReset, wrapSimpleReset } from './simple-reset.mjs';
 
 import { graph, contributionColors, sequence, layoutCalendar } from './contribution-scene.mjs';
 
+// Constant-color paint servers keep Samsung Internet's forced dark mode from
+// recoloring luminance-mask cutouts. WebKit retains the original solid fills to
+// preserve its rasterization; the Apple system-font query selects that fallback.
+const maskPaintServers = '<linearGradient id="mask-white"><stop stop-color="white"/></linearGradient><linearGradient id="mask-black"><stop stop-color="black"/></linearGradient>';
+const maskCompatibilityStyle = '<style>@supports (font: -apple-system-body){[data-mask-paper]{fill:white}[data-mask-ink]{fill:black}}</style>';
+
 function animationStyle(plans, gameplay, timing, positioning) {
   return `<style>
 .eye,.notch{transform:scale(0);transform-box:fill-box;animation:carve ${timing.cellDuration}s cubic-bezier(.3,0,.35,1) var(--delay) 1 both}
@@ -48,7 +54,7 @@ function cellMask(c, delay) {
     ['notch', 4, 10, 4, 3, '50% 100%'],
     ['eye', 2, 4, 2, 2, '50% 50%'], ['eye', 8, 4, 2, 2, '50% 50%'],
   ];
-  return `<mask id="cell-${c.date}" maskUnits="userSpaceOnUse" x="${c.x - 1}" y="${c.y - 1}" width="14" height="14" style="--delay:${delay}s"><rect x="${c.x - 1}" y="${c.y - 1}" width="14" height="14" fill="white"/><g transform="translate(${c.x} ${c.y})" fill="black">${cuts.map(([cls, x, y, w, h, origin]) => `<rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}" style="--origin:${origin}"/>`).join('')}</g></mask>`;
+  return `<mask id="cell-${c.date}" maskUnits="userSpaceOnUse" x="${c.x - 1}" y="${c.y - 1}" width="14" height="14" style="--delay:${delay}s"><rect data-mask-paper="" x="${c.x - 1}" y="${c.y - 1}" width="14" height="14" fill="url(#mask-white)"/><g data-mask-ink="" transform="translate(${c.x} ${c.y})" fill="url(#mask-black)">${cuts.map(([cls, x, y, w, h, origin]) => `<rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}" style="--origin:${origin}"/>`).join('')}</g></mask>`;
 }
 
 export function contributionInvaders(input, theme = 'dark', mobile = false, stationary = false, deployment, starfield) {
@@ -70,9 +76,9 @@ export function contributionInvaders(input, theme = 'dark', mobile = false, stat
   let body = '';
   if (!stationary) {
     body += `<metadata>${escapeXml(JSON.stringify({ algorithm: configuration.algorithm, seed: configuration.seed, attempt: configuration.attempt, metrics: configuration.metrics, totalActiveDays: configuration.totalActiveDays, displayedInvaders: configuration.displayedInvaders, samplingRatio: configuration.samplingRatio, densityMode: configuration.densityMode, spriteScale: configuration.scale, selectedDates: configuration.selectedDates, sampling: configuration.sampling, capacity: configuration.capacity, routeMode: configuration.routeMode, morphTiming: timing, gameplay, ending, starfield: sky, reset, positioning }))}</metadata>`;
-    body += '<defs><clipPath id="field"><rect x="-16" y="-32" width="880" height="192"/></clipPath>';
+    body += `<defs>${maskPaintServers}<clipPath id="field"><rect x="-16" y="-32" width="880" height="192"/></clipPath>`;
     for (const c of cells.filter(c => plans.some(p => p.date === c.date))) body += cellMask(c, delay(c));
-    body += '</defs>' + animationStyle(plans, canonicalGameplay, clock, positioning);
+    body += maskCompatibilityStyle + '</defs>' + animationStyle(plans, canonicalGameplay, clock, positioning);
     body += `<g class="space" clip-path="url(#field)">${starLayer(false, theme, sky)}${starLayer(true, theme, sky)}</g>`;
   }
   const targets = new Map(plans.map(c => [c.date, c]));
