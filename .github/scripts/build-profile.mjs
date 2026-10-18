@@ -23,17 +23,22 @@ function instrument(cx, cy, scale = 1) {
 }
 
 function hero(theme, mobile) {
-  const w = mobile ? 440 : 880, h = mobile ? 264 : 280, cx = mobile ? 220 : 270;
+  const w = mobile ? 440 : 880, h = mobile ? 346 : 344, x = mobile ? 28 : 36;
   let body = frame(w, h);
   for (let i = 24; i < w; i += 32) body += `<path d="M${i} 16v${h - 32}" stroke="grid" opacity=".45"/>`;
-  for (let i = 24; i < h; i += 32) body += `<path d="M16 ${i}h${w - 32}" stroke="grid" opacity=".45"/>`;
-  body += text(cx, 42, '@therabo', { size: 18, mono: true, fill: 'accent', anchor: 'middle' });
-  body += text(cx, mobile ? 108 : 112, 'Daniel', { size: mobile ? 55 : 64, weight: 700, spacing: -2, anchor: 'middle' });
-  body += text(cx, mobile ? 174 : 188, 'Rabottini', { size: mobile ? 55 : 64, weight: 700, spacing: -2, anchor: 'middle' });
-  body += text(cx, mobile ? 230 : 236, 'Computer Science Graduate', { size: mobile ? 23 : 22, fill: 'muted', anchor: 'middle' });
-  if (!mobile) body += instrument(693, 140);
+  for (let i = 24; i < h - 16; i += 32) body += `<path d="M16 ${i}h${w - 32}" stroke="grid" opacity=".45"/>`;
+  body += text(x, 42, '@therabo', { size: 18, mono: true, fill: 'accent' });
+  body += text(x, mobile ? 111 : 119, 'Daniel', { size: mobile ? 55 : 64, weight: 700, spacing: -2 });
+  body += text(x, mobile ? 167 : 181, 'Rabottini', { size: mobile ? 55 : 64, weight: 700, spacing: -2 });
+  if (mobile) {
+    body += text(x, 285, 'Computer Science Graduate —', { size: 18, fill: 'muted' });
+    body += text(x, 313, 'University of Turin', { size: 20, weight: 700 });
+  } else {
+    body += `<text x="${x}" y="307" fill="muted" font-family="Arial, Helvetica, sans-serif" font-size="17">Computer Science Graduate — <tspan font-weight="700" fill="text">University of Turin</tspan></text>`;
+    body += instrument(693, 171);
+  }
   return svg(w, h, 'Daniel Rabottini · @therabo', body, theme,
-    'Daniel Rabottini · @therabo — Computer Science Graduate.');
+    'Computer Science Graduate — University of Turin.');
 }
 
 const sections = [['activity', 'Activity', 'PUBLIC GITHUB'], ['contact', 'Contact', 'CONTINUE THE CONVERSATION']];
@@ -65,7 +70,7 @@ function picture(base, alt, { mobile = false, dynamic = false } = {}) {
   return `<picture>\n${sources.join('\n')}\n  <img src="${dynamic ? `./assets/stats/${base}-light.svg` : path(false, true)}" alt="${alt}" width="100%" />\n</picture>`;
 }
 
-const parts = [picture('profile-header', 'Daniel Rabottini · @therabo — Computer Science Graduate.', { mobile: true })];
+const parts = [picture('profile-header', 'Daniel Rabottini · @therabo — Computer Science Graduate, University of Turin.', { mobile: true })];
 parts.push(picture('section-activity', 'Activity — public GitHub data', { mobile: true }));
 parts.push(picture('activity-card', 'GitHub activity: stars received, indexed public commits, public pull requests, issues and owned repositories. Current and longest contribution streaks since account creation, with dates. Updated automatically from public GitHub data and the publicly visible contribution calendar.', { mobile: true, dynamic: true }));
 const contributionSources = [];
