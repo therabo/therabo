@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="64" viewBox="0 0 880 64" role="img" aria-labelledby="title desc">
-<title id="title">Activity</title><desc id="desc">PUBLIC GITHUB</desc>
-<text x="0" y="40" fill="#75e0ca" font-family="monospace" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">01</text><text x="46" y="41" fill="#eff4f8" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" text-anchor="start" letter-spacing="-0.5">Activity</text><path d="M205 32H880" stroke="#2c414e"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="54" viewBox="0 0 880 54" role="img" aria-labelledby="title desc">
+<title id="title">Activity</title><desc id="desc">Activity</desc>
+<text x="0" y="37" fill="#eff4f8" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" text-anchor="start" letter-spacing="-0.5">Activity</text><path d="M158 27H880" stroke="#2c414e" />
 </svg>

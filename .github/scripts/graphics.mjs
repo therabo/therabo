@@ -23,21 +23,25 @@ export const frame = (w, h) => `<rect x="0.5" y="0.5" width="${w - 1}" height="$
 
 export function activityCard(stats, theme, mobile = false) {
   const width = mobile ? 440 : 880;
-  const height = mobile ? 360 : 210;
+  const height = mobile ? 268 : 124;
   const metrics = [
     ['Repositories', stats.repos], ['Stars received', stats.stars],
-    ['Indexed commits', stats.commits], ['Pull requests', stats.prs], ['Issues opened', stats.issues],
+    ['Commits', stats.commits], ['Pull requests', stats.prs], ['Issues opened', stats.issues],
   ];
-  let body = frame(width, height) + text(24, 33, '@therabo / PUBLIC GITHUB', { size: 14, mono: true, fill: 'accent', spacing: 1 });
+  let body = frame(width, height);
   metrics.forEach(([label, value], i) => {
-    const x = mobile ? 24 + (i % 2) * 210 : 24 + i * 172;
-    const y = mobile ? 88 + Math.floor(i / 2) * 85 : 100;
-    body += text(x, y, new Intl.NumberFormat('en-US').format(value), { size: mobile ? 34 : 36, weight: 700 });
-    body += text(x, y + 27, label, { size: mobile ? 18 : 16, fill: 'muted' });
-    if (!mobile && i < 4) body += `<path d="M${x + 150} 64v76" stroke="line"/>`;
+    const count = new Intl.NumberFormat('en-US').format(value);
+    if (mobile) {
+      const y = 46 + i * 44;
+      body += text(24, y, label, { size: 18, fill: 'muted' });
+      body += text(width - 24, y + 1, count, { size: 28, weight: 700, anchor: 'end' });
+    } else {
+      const x = 24 + i * 172;
+      body += text(x, 61, count, { size: 36, weight: 700 });
+      body += text(x, 89, label, { size: 16, fill: 'muted' });
+      if (i < 4) body += `<path d="M${x + 150} 27v70" stroke="line"/>`;
+    }
   });
-  body += `<path d="M24 ${height - 48}H${width - 24}" stroke="line"/>`;
-  body += text(24, height - 23, mobile ? 'Public data · commits indexed by GitHub Search' : 'PUBLIC DATA ONLY  /  Commits indexed on default branches by GitHub Search.', { size: mobile ? 13 : 14, fill: 'muted', mono: !mobile });
-  return svg(width, height, 'Daniel Rabottini — public GitHub activity', body, theme,
-    metrics.map(([label, value]) => `${label}: ${value}`).join('. ') + '. Public data only. Commit search covers indexed default branches, not every lifetime commit.');
+  return svg(width, height, 'GitHub activity', body, theme,
+    metrics.map(([label, value]) => `${label}: ${value}`).join('. ') + '.');
 }

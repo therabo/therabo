@@ -11,7 +11,7 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/section-activity-mobile-light.svg" />
   <source media="(prefers-color-scheme: dark)" srcset="./assets/section-activity.svg" />
   <source media="(prefers-color-scheme: light)" srcset="./assets/section-activity-light.svg" />
-  <img src="./assets/section-activity-light.svg" alt="Activity — public GitHub data" width="100%" />
+  <img src="./assets/section-activity-light.svg" alt="Activity" width="100%" />
 </picture>
 
 <picture>
@@ -19,7 +19,7 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card-mobile-light.svg" />
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/therabo/therabo/output/stats/activity-card-light.svg" />
-  <img src="./assets/stats/activity-card-light.svg" alt="Public GitHub activity: repositories, stars received, indexed commits, pull requests and issues. Updated automatically; detailed metric scope is documented in docs/MAINTENANCE.md." width="100%" />
+  <img src="./assets/stats/activity-card-light.svg" alt="GitHub activity: repositories, stars received, commits, pull requests and issues." width="100%" />
 </picture>
 
 <picture>
@@ -42,6 +42,19 @@
   <img src="./assets/section-contact-light.svg" alt="Contact" width="100%" />
 </picture>
 
-**[LinkedIn ↗](https://www.linkedin.com/in/therabo/)** &nbsp; · &nbsp; **[GitHub ↗](https://github.com/therabo)**
-
-<p><sub>Thanks for visiting.</sub></p>
+<p>
+  <a href="https://www.linkedin.com/in/therabo/" title="LinkedIn profile">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/contact-linkedin.svg" />
+      <source media="(prefers-color-scheme: light)" srcset="./assets/contact-linkedin-light.svg" />
+      <img src="./assets/contact-linkedin-light.svg" alt="LinkedIn" width="126" height="44" />
+    </picture>
+  </a>&nbsp;&nbsp;&nbsp;
+  <a href="https://t.me/callmeda" title="Telegram contact">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/contact-telegram.svg" />
+      <source media="(prefers-color-scheme: light)" srcset="./assets/contact-telegram-light.svg" />
+      <img src="./assets/contact-telegram-light.svg" alt="Telegram" width="140" height="44" />
+    </picture>
+  </a>
+</p>
