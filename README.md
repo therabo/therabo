@@ -42,19 +42,5 @@
   <img src="./assets/section-contact-light.svg" alt="Contact" width="100%" />
 </picture>
 
-<p>
-  <a href="https://www.linkedin.com/in/therabo/" title="LinkedIn profile">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./assets/contact-linkedin.svg" />
-      <source media="(prefers-color-scheme: light)" srcset="./assets/contact-linkedin-light.svg" />
-      <img src="./assets/contact-linkedin-light.svg" alt="LinkedIn" width="126" height="44" />
-    </picture>
-  </a>&nbsp;&nbsp;&nbsp;
-  <a href="https://t.me/callmeda" title="Telegram contact">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./assets/contact-telegram.svg" />
-      <source media="(prefers-color-scheme: light)" srcset="./assets/contact-telegram-light.svg" />
-      <img src="./assets/contact-telegram-light.svg" alt="Telegram" width="140" height="44" />
-    </picture>
-  </a>
-</p>
+<p><a href="https://www.linkedin.com/in/therabo/" title="LinkedIn profile"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/contact-linkedin.svg" /><source media="(prefers-color-scheme: light)" srcset="./assets/contact-linkedin-light.svg" /><img src="./assets/contact-linkedin-light.svg" alt="LinkedIn" width="126" height="44" /></picture></a>&nbsp;&nbsp;&nbsp;
+  <a href="https://t.me/callmeda" title="Telegram contact"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/contact-telegram.svg" /><source media="(prefers-color-scheme: light)" srcset="./assets/contact-telegram-light.svg" /><img src="./assets/contact-telegram-light.svg" alt="Telegram" width="140" height="44" /></picture></a></p>
