@@ -23,30 +23,17 @@ function instrument(cx, cy, scale = 1) {
 }
 
 function hero(theme, mobile) {
-  const w = mobile ? 440 : 880, h = mobile ? 500 : 378, x = mobile ? 28 : 36;
+  const w = mobile ? 440 : 880, h = mobile ? 264 : 280, cx = mobile ? 220 : 270;
   let body = frame(w, h);
   for (let i = 24; i < w; i += 32) body += `<path d="M${i} 16v${h - 32}" stroke="grid" opacity=".45"/>`;
   for (let i = 24; i < h; i += 32) body += `<path d="M16 ${i}h${w - 32}" stroke="grid" opacity=".45"/>`;
-  body += text(x, 42, '@therabo', { size: 18, mono: true, fill: 'accent' });
-  body += text(w - x, 42, 'DR / 01', { size: 13, mono: true, fill: 'muted', anchor: 'end' });
-  body += text(x, mobile ? 111 : 119, 'Daniel', { size: mobile ? 55 : 64, weight: 700, spacing: -2 });
-  body += text(x, mobile ? 167 : 181, 'Rabottini', { size: mobile ? 55 : 64, weight: 700, spacing: -2 });
-  body += text(x, mobile ? 213 : 231, 'Software engineering · Applied AI', { size: mobile ? 20 : 21, fill: 'muted' });
-  body += text(x, mobile ? 243 : 262, 'Reverse engineering · Cybersecurity', { size: mobile ? 20 : 21, fill: 'muted' });
-  if (mobile) {
-    body += text(x, 285, 'Computer Science graduate —', { size: 18, fill: 'muted' });
-    body += text(x, 313, 'University of Turin', { size: 20, weight: 700 });
-    body += instrument(305, 399, .77);
-    ['inspect.', 'model.', 'build.'].forEach((v, i) => { body += text(x, 374 + i * 30, v, { size: 19, mono: true, fill: i === 2 ? 'accent' : 'muted' }); });
-  } else {
-    body += `<text x="${x}" y="307" fill="muted" font-family="Arial, Helvetica, sans-serif" font-size="17">Computer Science graduate — <tspan font-weight="700" fill="text">University of Turin</tspan></text>`;
-    body += instrument(693, 171);
-    body += text(565, 62, 'SOURCE', { size: 11, mono: true, fill: 'muted' });
-    body += text(806, 281, 'SYSTEM', { size: 11, mono: true, fill: 'muted', anchor: 'end' });
-    body += text(x, 351, 'INSPECT  /  MODEL  /  BUILD', { size: 14, mono: true, fill: 'accent', spacing: 1 });
-  }
+  body += text(cx, 42, '@therabo', { size: 18, mono: true, fill: 'accent', anchor: 'middle' });
+  body += text(cx, mobile ? 108 : 112, 'Daniel', { size: mobile ? 55 : 64, weight: 700, spacing: -2, anchor: 'middle' });
+  body += text(cx, mobile ? 174 : 188, 'Rabottini', { size: mobile ? 55 : 64, weight: 700, spacing: -2, anchor: 'middle' });
+  body += text(cx, mobile ? 230 : 236, 'Computer Science Graduate', { size: mobile ? 23 : 22, fill: 'muted', anchor: 'middle' });
+  if (!mobile) body += instrument(693, 140);
   return svg(w, h, 'Daniel Rabottini · @therabo', body, theme,
-    'Computer Science graduate — University of Turin. Software engineering, applied AI, reverse engineering and cybersecurity. An original orbital and data-flow instrument: inspect, model, build.');
+    'Daniel Rabottini · @therabo — Computer Science Graduate.');
 }
 
 const sections = [['activity', 'Activity', 'PUBLIC GITHUB'], ['contact', 'Contact', 'CONTINUE THE CONVERSATION']];
@@ -78,7 +65,7 @@ function picture(base, alt, { mobile = false, dynamic = false } = {}) {
   return `<picture>\n${sources.join('\n')}\n  <img src="${dynamic ? `./assets/stats/${base}-light.svg` : path(false, true)}" alt="${alt}" width="100%" />\n</picture>`;
 }
 
-const parts = [picture('profile-header', 'Daniel Rabottini · @therabo — Computer Science graduate, University of Turin. Software engineering, applied AI, reverse engineering and cybersecurity.', { mobile: true })];
+const parts = [picture('profile-header', 'Daniel Rabottini · @therabo — Computer Science Graduate.', { mobile: true })];
 parts.push(picture('section-activity', 'Activity — public GitHub data', { mobile: true }));
 parts.push(picture('activity-card', 'GitHub activity: stars received, indexed public commits, public pull requests, issues and owned repositories. Current and longest contribution streaks since account creation, with dates. Updated automatically from public GitHub data and the publicly visible contribution calendar.', { mobile: true, dynamic: true }));
 const contributionSources = [];

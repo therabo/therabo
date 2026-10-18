@@ -3,7 +3,7 @@
   <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="./assets/profile-header-mobile-light.svg" />
   <source media="(prefers-color-scheme: dark)" srcset="./assets/profile-header.svg" />
   <source media="(prefers-color-scheme: light)" srcset="./assets/profile-header-light.svg" />
-  <img src="./assets/profile-header-light.svg" alt="Daniel Rabottini · @therabo — Computer Science graduate, University of Turin. Software engineering, applied AI, reverse engineering and cybersecurity." width="100%" />
+  <img src="./assets/profile-header-light.svg" alt="Daniel Rabottini · @therabo — Computer Science Graduate." width="100%" />
 </picture>
 
 <picture>
