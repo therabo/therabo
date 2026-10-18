@@ -4,7 +4,7 @@ import { canvas } from './motion-geometry.mjs';
 import { ship, shipSafeVerticalRange, shipPoseAt, shipTrail } from './ship.mjs';
 
 // This scene owns its clock and planning. No targeting, shooting or horde imports.
-// See ADR-0002. Rotating silhouettes fit in their circumscribed collision circles.
+// Rotating silhouettes fit in their circumscribed collision circles.
 export const meteorRules = Object.freeze({
   shipX: (canvas.left + canvas.right) / 2,
   startAt: ship.enterAt + ship.duration,

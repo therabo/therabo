@@ -38,7 +38,7 @@ export function shiftGameplayTimeline(timeline,offset) {
 }
 
 // Only the positioning interval is sped up. Canonical gameplay and individual
-// motion keep their approved relative phases and durations. See ADR-0005.
+// motion keep their approved relative phases and durations.
 const invaderPositioningSpeed = 1.60;
 const invaderPrePositioningGapFraction = .40;
 export function invaderPositioningTiming(morph) {

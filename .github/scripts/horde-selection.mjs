@@ -1,7 +1,7 @@
 import { randomFor } from './random.mjs';
 import { region, motionEnvelopes, motionCaps } from './motion-geometry.mjs';
 
-// See ADR-0001. These are distances/readability budgets, never a count threshold.
+// These are distances/readability budgets, never a count threshold.
 export const readable = Object.freeze({ spriteSize: 12, minimumSeparation: 23.6, meanHorizontal: 12, smallHorizontal: 3, maximumSmallFraction: .1, minimumVertical: .3, verticalBudget: 1.5, guard: .6, separation: 1.1 });
 const round = n => Number(n.toFixed(6));
 const distance = (a, b) => Math.hypot(a.x-b.x,a.y-b.y);

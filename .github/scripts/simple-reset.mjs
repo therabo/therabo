@@ -2,7 +2,7 @@ import { horde } from './horde.mjs';
 import { ship } from './ship.mjs';
 import { explosion } from './hit-explosion.mjs';
 
-// Invader-only native replay, without changing the original scene. See ADR-0004.
+// Invader-only native replay, without changing the original scene.
 // Keep SMIL syncbase IDs free of hyphens: Gecko drops later .end intervals.
 const fadeSignal = 'invader_scene_fade';
 const resetSignal = 'invader_scene_reset';

@@ -12,7 +12,7 @@ function dateOnly(value) {
   return value;
 }
 
-// See ADR-0006. A complete account-history window is required, never an annual proxy.
+// A complete account-history window is required, never an annual proxy.
 export function deriveStreaks(days, from, through) {
   dateOnly(from);
   dateOnly(through);

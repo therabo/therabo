@@ -35,8 +35,12 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Test generators
-        run: node --test test/*.test.mjs
+      - name: Check generator syntax
+        run: |
+          for script in .github/scripts/*.mjs; do
+            node --check "$script"
+          done
+          bash -n .github/scripts/publish-output.sh
 
       - name: Preserve last successful graphics
         run: bash .github/scripts/publish-output.sh prepare

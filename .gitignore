@@ -23,3 +23,7 @@ reports/
 .DS_Store
 .idea/
 .vscode/
+
+# Local documentation and regression tests are maintained outside published source.
+/docs/
+/test/

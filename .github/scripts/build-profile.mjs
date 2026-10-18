@@ -80,7 +80,7 @@ function picture(base, alt, { mobile = false, dynamic = false } = {}) {
 
 const parts = [picture('profile-header', 'Daniel Rabottini · @therabo — Computer Science graduate, University of Turin. Software engineering, applied AI, reverse engineering and cybersecurity.', { mobile: true })];
 parts.push(picture('section-activity', 'Activity — public GitHub data', { mobile: true }));
-parts.push(picture('activity-card', 'GitHub activity: stars received, indexed public commits, public pull requests, issues and owned repositories. Current and longest contribution streaks since account creation, with dates. Updated automatically; metric scope is documented in docs/MAINTENANCE.md.', { mobile: true, dynamic: true }));
+parts.push(picture('activity-card', 'GitHub activity: stars received, indexed public commits, public pull requests, issues and owned repositories. Current and longest contribution streaks since account creation, with dates. Updated automatically from public GitHub data and the publicly visible contribution calendar.', { mobile: true, dynamic: true }));
 const contributionSources = [];
 for (const mobile of [true, false]) for (const stationary of [true, false]) for (const theme of ['dark', 'light']) {
   const media = `${mobile ? '(max-width: 600px) and ' : ''}(prefers-color-scheme: ${theme})${stationary ? ' and (prefers-reduced-motion: reduce)' : ''}`;

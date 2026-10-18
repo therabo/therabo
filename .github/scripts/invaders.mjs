@@ -1,5 +1,5 @@
 // Dataset selection is the only mode boundary; finishing gameplay cannot change it.
-// See ADR-0002. The approved renderer stays isolated in invader-scene.mjs.
+// The approved renderer stays isolated in invader-scene.mjs.
 import { normalizeCalendar } from './contribution-calendar.mjs';
 import { contributionInvaders as invaderScene } from './invader-scene.mjs';
 import { meteorScene } from './meteor-scene.mjs';
