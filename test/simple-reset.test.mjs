@@ -38,8 +38,13 @@ test('one unchanged scene, one native opacity envelope and complete replay delay
   assert.equal((markup.match(/<animate /g) || []).length, 1);
   assert.equal((markup.match(/<set /g) || []).length, 2);
   assert.match(markup, /attributeName="opacity" values="1;0;0;1"/);
-  assert.match(markup, /invader-scene-fade\.end\+/);
-  assert.match(markup, /invader-scene-reset\.end\+/);
+  const syncbaseIds = [...markup.matchAll(/;([^;"\s]+)\.end\+/g)].map(m => m[1]);
+  assert.equal(syncbaseIds.length, 2);
+  for (const id of syncbaseIds) {
+    // Unescaped hyphens lose later syncbase intervals in Firefox's SMIL parser.
+    assert.match(id, /^[A-Za-z_][A-Za-z0-9_]*$/);
+    assert.ok(markup.includes(`id="${id}"`));
+  }
   for (const selector of ['.ship-entry', '.ship-engine-trail', '.space', '.projectile', '.hit-explosion', '.target-life', '.invader-victory', '[data-motion="motion-1"]']) {
     assert.ok(markup.includes('.invader-replay ' + selector), selector);
   }

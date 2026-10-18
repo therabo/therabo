@@ -65,8 +65,9 @@ motion retains its approved periods and envelopes. Two randomized star layers
 move continuously right-to-left at 31.2 and 52 units/s, with seamless wrap.
 
 Targeting selects the leftmost available invader, locks on firing and predicts
-its moving horizontal intercept. White 14.4×3.6 artwork travels at 200 units/s;
-logical hit dimensions remain separate from artwork. Hits have a 380 ms burst.
+its moving horizontal intercept. The 14.4×3.6 artwork remains white in dark mode
+and uses the ship’s shared `text` foreground in light mode. It travels at
+200 units/s; logical hit dimensions remain separate from artwork. Hits have a 380 ms burst.
 After the final burst, GITHUB SAVED! appears after 120 ms with a 320 ms fade.
 It holds fully visible for 1 s; the whole scene fades out for 0.5 s, resets under
 0.15 s invisibility and fades the original graph in for 0.5 s. Native SMIL class

@@ -93,7 +93,7 @@ export function contributionInvaders(input, theme = 'dark', mobile = false, stat
       if (!t) { body += rectangle(c); continue; }
       body += `<g class="target-life" data-target="${c.date}" data-fire-at="${number(shots.get(c.date).fireAt)}" data-hit-at="${number(shots.get(c.date).hitAt)}" style="--hit-at:${number(shots.get(c.date).hitAt)}s"><g class="horde-invader" data-motion="${t.id}" style="animation-name:${t.id};animation-duration:${t.period}s;animation-delay:${clock.after(t.startAt)}s;animation-iteration-count:${explosionFreezeIterations(t, canonicalShots.get(c.date))}"><g class="deploy" data-final-x="${number(t.finalX)}" data-final-y="${number(t.finalY)}" style="animation-name:deploy-${c.date}">${rectangle(c)}</g></g></g>`;
     }
-    body += projectileMarkup(gameplay) + explosionMarkup(gameplay, plans) + '</g>' + shipMarkup(theme) + invaderEndingMarkup(ending);
+    body += projectileMarkup(gameplay, theme) + explosionMarkup(gameplay, plans) + '</g>' + shipMarkup(theme) + invaderEndingMarkup(ending);
   }
 
   const desc = `Actual GitHub contribution calendar, ${calendar.days[0].date} to ${calendar.days.at(-1).date}. Original 12-pixel squares on a 16-pixel grid. ${cells.filter(c => c.count > 0).length} active days reveal eyes and edge notches in a single left-to-right geometric transformation lasting 12 seconds. Contribution colors and positions stay unchanged. Empty days fade away; they never become invaders. Stars appear after 4.4 seconds and move slowly right to left at two depths. The final formation stays still. Mobile preserves the same calendar geometry. Reduced motion and the static fallback show the complete initial graph without stars.`;

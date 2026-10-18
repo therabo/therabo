@@ -3,6 +3,9 @@ import { ship } from './ship.mjs';
 import { explosion } from './hit-explosion.mjs';
 
 // Invader-only native replay, without changing the original scene. See ADR-0004.
+// Keep SMIL syncbase IDs free of hyphens: Gecko drops later .end intervals.
+const fadeSignal = 'invader_scene_fade';
+const resetSignal = 'invader_scene_reset';
 export const simpleReset = Object.freeze({
   victoryHold: 1, fadeOut: .5, hiddenHold: .15, fadeIn: .5, resetPulse: .08,
 });
@@ -51,9 +54,9 @@ export function wrapSimpleReset(body, plan, plans, timing, gameplay) {
   const c = simpleReset;
   const keyTimes = [0, c.fadeOut / plan.totalDuration,
     (c.fadeOut + c.hiddenHold) / plan.totalDuration, 1].map(n => Number(n.toFixed(9))).join(';');
-  const opacity = `<animate id="invader-scene-fade" attributeName="opacity" values="1;0;0;1" keyTimes="${keyTimes}" calcMode="spline" keySplines=".42 0 .58 1;0 0 1 1;.42 0 .58 1" begin="${plan.startAt}s;invader-scene-fade.end+${round(plan.period - plan.totalDuration)}s" dur="${plan.totalDuration}s"/>`;
+  const opacity = `<animate id="${fadeSignal}" attributeName="opacity" values="1;0;0;1" keyTimes="${keyTimes}" calcMode="spline" keySplines=".42 0 .58 1;0 0 1 1;.42 0 .58 1" begin="${plan.startAt}s;${fadeSignal}.end+${round(plan.period - plan.totalDuration)}s" dur="${plan.totalDuration}s"/>`;
   const signals = `<set attributeName="class" to="invader-scene invader-replay" begin="${plan.resetAt}s" dur="indefinite"/>` +
-    `<set id="invader-scene-reset" attributeName="class" to="invader-scene invader-replay invader-resetting" begin="${plan.resetAt}s;invader-scene-reset.end+${round(plan.period - c.resetPulse)}s" dur="${c.resetPulse}s"/>`;
+    `<set id="${resetSignal}" attributeName="class" to="invader-scene invader-replay invader-resetting" begin="${plan.resetAt}s;${resetSignal}.end+${round(plan.period - c.resetPulse)}s" dur="${c.resetPulse}s"/>`;
   return `<g class="simple-reset-scene">${opacity}<g id="invader-scene" class="invader-scene">${signals}${body}</g></g>` +
     replayStyles(plan, plans, timing, gameplay);
 }

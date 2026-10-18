@@ -112,7 +112,7 @@ export function gameplayStyles() {
 @media(prefers-reduced-motion:reduce){.projectiles{display:none!important}}`;
 }
 
-export function projectileMarkup(timeline) {
+export function projectileMarkup(timeline, theme = 'dark') {
   const n = v => Number(v.toFixed(6));
-  return `<g class="projectiles" clip-path="url(#field)" fill="${projectileVisual.color}">${timeline.shots.map(s => `<path class="projectile" data-shot="${s.id}" data-target="${s.target}" d="${projectileShape}" style="--flight:${n(s.hitAt - s.fireAt)}s;--fire-at:${n(s.fireAt)}s;--origin-x:${n(s.origin.x)}px;--impact-x:${n(s.impact.x)}px;--shot-y:${n(s.origin.y)}px"/>`).join('')}</g>`;
+  return `<g class="projectiles" clip-path="url(#field)" fill="${theme === 'light' ? 'text' : projectileVisual.color}">${timeline.shots.map(s => `<path class="projectile" data-shot="${s.id}" data-target="${s.target}" d="${projectileShape}" style="--flight:${n(s.hitAt - s.fireAt)}s;--fire-at:${n(s.fireAt)}s;--origin-x:${n(s.origin.x)}px;--impact-x:${n(s.impact.x)}px;--shot-y:${n(s.origin.y)}px"/>`).join('')}</g>`;
 }
