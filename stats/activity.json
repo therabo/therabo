@@ -1,11 +1,26 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "user": "therabo",
   "data": {
     "repos": 6,
     "stars": 18,
-    "commits": 142,
+    "commits": 143,
     "prs": 0,
-    "issues": 0
+    "issues": 0,
+    "streaks": {
+      "source": "github-public-contribution-calendar",
+      "from": "2023-12-29",
+      "through": "2026-10-18",
+      "current": {
+        "count": 1,
+        "start": "2026-10-18",
+        "end": "2026-10-18"
+      },
+      "longest": {
+        "count": 12,
+        "start": "2026-09-24",
+        "end": "2026-10-05"
+      }
+    }
   }
 }
