@@ -10,11 +10,11 @@
     "streaks": {
       "source": "github-public-contribution-calendar",
       "from": "2023-12-29",
-      "through": "2026-11-15",
+      "through": "2026-11-16",
       "current": {
-        "count": 9,
-        "start": "2026-11-06",
-        "end": "2026-11-14"
+        "count": 0,
+        "start": null,
+        "end": null
       },
       "longest": {
         "count": 12,
